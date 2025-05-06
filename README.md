@@ -3,11 +3,17 @@
 
 # SpeedyIndex API v2 Documentation
 
+**Quick Links:**
+*   [Links Indexing](https://en.speedyindex.com)
+*   [Reindex Website](https://en.speedyindex.com/reindex-website/)
+*   [Index Checker](https://en.speedyindex.com/google-index-checker/)
+*   [Free Sitemap Extractor](https://en.speedyindex.com/free-xml-sitemap-url-extractor/)
+
 ## Introduction
 
-Welcome to the SpeedyIndex API v2. Our service is designed to provide a robust and efficient solution for **accelerated content discovery** by major search engines like Google and Yandex. Whether you need to get new pages indexed quickly, re-index updated content, or perform a **bulk URL index check**, our API offers the tools for seamless integration into your workflows.
+Welcome to the SpeedyIndex API v2. Our service is engineered to provide a powerful and streamlined solution for **accelerated content discovery** by major search engines, including Google and Yandex. Whether you need to **get new pages indexed quickly**, re-index updated content after a site migration, or perform a **bulk URL index check** for large websites, our API offers the tools for seamless integration into your existing SEO workflows and scripts. SpeedyIndex is your go-to platform if you're looking for a reliable **alternative to Google Indexing API** that supports a wider range of URLs without the strict limitations.
 
-SpeedyIndex helps you manage your website's presence in search results programmatically. Utilize our API for **forced indexing tool** capabilities, ensuring your fresh content doesn't wait long to be seen. This documentation provides all the necessary details to interact with our endpoints, manage tasks, and monitor your link indexation status effectively. We support **Yandex index submission API** functionalities alongside Google.
+SpeedyIndex empowers you to programmatically manage your website's presence in search results. Utilize our API for **forced indexing tool** capabilities, ensuring your fresh articles, product pages, or critical updates don't languish unseen. This comprehensive documentation provides all necessary details to interact with our endpoints, manage link submission tasks, and effectively monitor your **link indexation status for Google**. We also provide robust support for **Yandex index submission API** functionalities, making it a versatile tool for international SEO. If you've ever wondered **how to check if a site is indexed by Google programmatically** or need a **fast way to get URLs indexed**, SpeedyIndex API is the answer.
 
 Key benefits of using the SpeedyIndex API:
 
