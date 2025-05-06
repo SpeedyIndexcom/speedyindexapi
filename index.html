@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedyIndex API v2 Documentation | Fast URL Indexing</title>
+    <meta name="description" content="Comprehensive guide to SpeedyIndex API v2 for programmatic Google indexing, bulk URL index checking, and accelerated content discovery. Automate your website re-indexing tasks.">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #ecf0f1;
+            --text-color: #333;
+            --code-bg: #2d2d2d;
+            --code-text: #f0f0f0;
+            --border-color: #bdc3c7;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        .sidebar {
+            width: 260px;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+            color: var(--secondary-color);
+            border-bottom: 1px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+
+        .sidebar nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar nav ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            display: block;
+            padding: 8px 0;
+            transition: color 0.3s ease, padding-left 0.3s ease;
+        }
+
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            color: var(--secondary-color);
+            padding-left: 10px;
+            font-weight: bold;
+        }
+
+        .main-content {
+            margin-left: 260px; /* Same as sidebar width */
+            padding: 20px 40px;
+            width: calc(100% - 260px);
+        }
+
+        header {
+            background-color: #fff;
+            padding: 15px 40px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        header .top-nav-links a {
+            margin-right: 15px;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        header .top-nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .api-section {
+            background-color: #fff;
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .api-section h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .endpoint-method {
+            font-size: 0.8em;
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: #fff;
+        }
+        .get .endpoint-method { background-color: #27ae60; } /* Green for GET */
+        .post .endpoint-method { background-color: #2980b9; } /* Blue for POST */
+
+
+        .api-section h4 {
+            color: var(--secondary-color);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        code, pre {
+            font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            padding: 15px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .parameter-list, .response-fields {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .parameter-list li, .response-fields li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .parameter-list li::before, .response-fields li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+        }
+
+        .parameter-list code, .response-fields code {
+            background-color: #e0e0e0;
+            color: var(--primary-color);
+        }
+        
+        .note {
+            background-color: #fdf9e0;
+            border-left: 4px solid #f1c40f;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+        td code {
+             background-color: transparent; color: var(--text-color); padding:0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                box-shadow: none;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            header {
+                padding: 15px 20px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>SpeedyIndex API</h2>
+        <nav>
+            <ul>
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#check-balance">Check Balance</a></li>
+                <li><a href="#task-creation">Task Creation</a></li>
+                <li><a href="#list-tasks">List Tasks</a></li>
+                <li><a href="#task-status">Task Status</a></li>
+                <li><a href="#download-report">Download Report</a></li>
+                <li><a href="#index-single-link">Index Single Link</a></li>
+                <li><a href="#create-invoice">Create Invoice</a></li>
+                <li><a href="#vip-queue">VIP Queue</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="main-content">
+        <header>
+            <h1>SpeedyIndex API v2 Documentation</h1>
+            <div class="top-nav-links">
+                <a href="https://en.speedyindex.com" target="_blank" rel="noopener noreferrer">Links Indexing</a>
+                <a href="https://en.speedyindex.com/reindex-website/" target="_blank" rel="noopener noreferrer">Reindex Website</a>
+                <a href="https://en.speedyindex.com/google-index-checker/" target="_blank" rel="noopener noreferrer">Index Checker</a>
+                <a href="https://en.speedyindex.com/free-xml-sitemap-url-extractor/" target="_blank" rel="noopener noreferrer">Free Sitemap Extractor</a>
+            </div>
+        </header>
+
+        <main>
+            <section id="introduction" class="api-section">
+                <h3>Introduction <span class="endpoint-method">INFO</span></h3>
+                <p>Welcome to the SpeedyIndex API v2. Our service is designed to provide a robust and efficient solution for <strong>accelerated content discovery</strong> by major search engines like Google and Yandex. Whether you need to get new pages indexed quickly, re-index updated content, or perform a <strong>bulk URL index check</strong>, our API offers the tools for seamless integration into your workflows.</p>
+                <p>SpeedyIndex helps you manage your website's presence in search results programmatically. Utilize our API for <strong>forced indexing tool</strong> capabilities, ensuring your fresh content doesn't wait long to be seen. This documentation provides all the necessary details to interact with our endpoints, manage tasks, and monitor your link indexation status effectively. We support <strong>Yandex index submission API</strong> functionalities alongside Google.</p>
+                <p>Key benefits of using the SpeedyIndex API:</p>
+                <ul>
+                    <li><strong>Rapid Indexing:</strong> Submit URLs for quick processing by Google and Yandex.</li>
+                    <li><strong>Indexation Checks:</strong> Verify the index status of your URLs.</li>
+                    <li><strong>Task Management:</strong> Create, list, and monitor indexing and checking tasks.</li>
+                    <li><strong>Detailed Reporting:</strong> Get comprehensive reports on task progress and outcomes.</li>
+                    <li><strong>Scalability:</strong> From single link submissions to bulk operations for up to 10,000 URLs per request.</li>
+                    <li><strong>Automation:</strong> Perfect for those looking to <strong>automate website re-indexing</strong> processes.</li>
+                </ul>
+                <p>Your API Key must be included in the <code>Authorization</code> header for all requests.</p>
+            </section>
+
+            <section id="check-balance" class="api-section get">
+                <h3>Check Balance <span class="endpoint-method">GET</span></h3>
+                <p>To get your current account balance for different services.</p>
+                <h4>Endpoint</h4>
+                <pre><code>GET /v2/account</code></pre>
+                <h4>Headers</h4>
+                <ul class="parameter-list">
+                    <li><code>Authorization: <API KEY></code> - Your unique API key.</li>
+                </ul>
+                <h4>Response Fields</h4>
+                <ul class="response-fields">
+                    <li><code>code</code> (integer): Status code of the response. 0 indicates success.</li>
+                    <li><code>balance</code> (object): Contains balance details.
+                        <ul>
+                            <li><code>balance.indexer</code> (integer): Your balance for Google link indexing service.</li>
+                            <li><code>balance.checker</code> (integer): Your balance for Google link indexation check service.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <h4>Request Example</h4>
+                <pre><code class="language-bash">curl -H "Authorization: <API KEY>" https://api.speedyindex.com/v2/account</code></pre>
+                <h4>Response Example</h4>
+                <pre><code class="language-json">{
+    "code": 0,
+    "balance": {
+        "indexer": 10014495,
+        "checker": 100732
+    }
+}</code></pre>
+            </section>
+
+            <section id="task-creation" class="api-section post">
+                <h3>Task Creation <span class="endpoint-method">POST</span></h3>
+                <p>Create a new task for link indexing or index checking. This is a core feature for programmatic Google indexing.</p>
+                <h4>Endpoint</h4>
+                <pre><code>POST /v2/task/<SEARCH ENGINE>/<TASK TYPE>/create</code></pre>
+                <h4>Path Parameters</h4>
+                <ul class="parameter-list">
+                    <li><code>SEARCH ENGINE</code> (string): The search engine. Possible values: <code>google</code>, <code>yandex</code>.</li>
+                    <li><code>TASK TYPE</code> (string): The type of task. Possible values: <code>indexer</code> (for link indexing), <code>checker</code> (for checking indexation of links).</li>
+                </ul>
+                <h4>Headers</h4>
+                <ul class="parameter-list">
+                    <li><code>Authorization: <API KEY></code> - Your unique API key.</li>
+                    <li><code>Content-Type: application/json</code></li>
+                </ul>
+                <h4>Request Body (JSON)</h4>
+                <ul class="parameter-list">
+                    <li><code>title</code> (string, optional): A name for your task.</li>
+                    <li><code>urls</code> (array of strings): Links you want to add to the task. <strong>No more than 10,000 links</strong> in a single request.</li>
+                </ul>
+                <h4>Response Codes & Fields</h4>
+                <ul class="response-fields">
+                    <li><code>code</code> (number):
+                        <ul>
+                            <li><code>0</code>: Links successfully added.</li>
+                            <li><code>1</code>: Top up balance.</li>
+                            <li><code>-2</code>: The server is overloaded. Repeat the request later.</li>
+                        </ul>
+                    </li>
+                    <li><code>task_id</code> (string): Identifier of the created task (if <code>code: 0</code>).</li>
+                    <li><code>type</code> (string): Task type (e.g., <code>google/indexer</code>).</li>
+                </ul>
+                <h4>Request Example</h4>
+                <pre><code class="language-bash">curl -X POST -H 'Authorization: <API KEY>' \
+-H 'Content-Type: application/json' \
+-d '{"title":"test title","urls":["https://google.com","https://google.ru"]}' \
+https://api.speedyindex.com/v2/task/google/indexer/create</code></pre>
+                <h4>Response Example</h4>
+                <pre><code class="language-json">{
+    "code": 0,
+    "task_id": "6609d023a3188540f09fec6c",
+    "type": "google/indexer"
+}</code></pre>
+            </section>
+
+            <section id="list-tasks" class="api-section get">
+                <h3>Getting the list of tasks <span class="endpoint-method">GET</span></h3>
+                <p>Retrieve a paginated list of your tasks.</p>
+                <h4>Endpoint</h4>
+                <pre><code>GET /v2/task/<SEARCH ENGINE>/<TASK TYPE>/list/<PAGE></code></pre>
+                <h4>Path Parameters</h4>
+                 <ul class="parameter-list">
+                    <li><code>SEARCH ENGINE</code> (string): Possible values: <code>google</code>, <code>yandex</code>.</li>
+                    <li><code>TASK TYPE</code> (string): Possible values: <code>indexer</code>, <code>checker</code>.</li>
+                    <li><code>PAGE</code> (number): Page number. Each page contains 1000 tasks. Numbering starts from 0. The task list is sorted from new to old.</li>
+                </ul>
+                <h4>Headers</h4>
+                <ul class="parameter-list">
+                    <li><code>Authorization: <API KEY></code></li>
+                </ul>
+                <h4>Response Fields</h4>
+                <ul class="response-fields">
+                    <li><code>code</code> (number): Status code.</li>
+                    <li><code>page</code> (number): Current page number.</li>
+                    <li><code>last_page</code> (number): Last page number.</li>
+                    <li><code>result</code> (array of objects): List of tasks. Each task object contains:
+                        <ul>
+                            <li><code>id</code> (string): Task identifier.</li>
+                            <li><code>size</code> (number): Total number of links in the task.</li>
+                            <li><code>processed_count</code> (number): Number of processed links.</li>
+                            <li><code>indexed_count</code> (number): Number of indexed links.</li>
+                            <li><code>type</code> (string): Task type.</li>
+                            <li><code>title</code> (string): Task title.</li>
+                            <li><code>is_completed</code> (boolean): True if the task is completed and the final report is available.</li>
+                            <li><code>created_at</code> (string): Task creation date (ISO 8601 format).</li>
+                        </ul>
+                    </li>
+                </ul>
+                <h4>Request Example</h4>
+                <pre><code class="language-bash">curl -H "Authorization: <API KEY>" https://api.speedyindex.com/v2/task/google/checker/list/0</code></pre>
+                <h4>Response Example</h4>
+                <pre><code class="language-json">{
+    "code": 0,
+    "page": 0,
+    "last_page": 0,
+    "result": [
+        {
+            "id": "65f8c7315752853b9171860a",
+            "size": 690,
+            "processed_count": 690,
+            "indexed_count": 279,
+            "title": "index_.txt",
+            "type": "google/checker",
+            "created_at": "2024-03-18T22:58:56.901Z"
+        }
+    ]
+}</code></pre>
+            </section>
+
+            <section id="task-status" class="api-section post">
+                <h3>Getting the status of tasks <span class="endpoint-method">POST</span></h3>
+                <p>Check the status of one or more tasks.</p>
+                <h4>Endpoint</h4>
+                <pre><code>POST /v2/task/<SEARCH ENGINE>/<TASK TYPE>/status</code></pre>
+                 <h4>Path Parameters</h4>
+                 <ul class="parameter-list">
+                    <li><code>SEARCH ENGINE</code> (string): Possible values: <code>google</code>, <code>yandex</code>.</li>
+                    <li><code>TASK TYPE</code> (string): Possible values: <code>indexer</code>, <code>checker</code>.</li>
+                </ul>
+                <h4>Headers</h4>
+                <ul class="parameter-list">
+                    <li><code>Authorization: <API KEY></code></li>
+                    <li><code>Content-Type: application/json</code></li>
+                </ul>
+                <h4>Request Body (JSON)</h4>
+                <ul class="parameter-list">
+                     <li><code>task_ids</code> (array of strings): List of task IDs. Limit: no more than <strong>1000</strong> elements.</li>
+                </ul>
+                <h4>Response Fields</h4>
+                <p>Same structure as the "List Tasks" response, containing details for the requested task IDs.</p>
+                <h4>Request Example</h4>
+                <pre><code class="language-bash">curl -X POST -H "Authorization: <API KEY>" \
+-H "Content-Type: application/json" \
+-d '{"task_ids":["65f8c7305759855b9171860a"]}' \
+https://api.speedyindex.com/v2/task/google/indexer/status</code></pre>
+                <h4>Response Example</h4>
+                <pre><code class="language-json">{
+    "code": 0,
+    "result": [
+        {
+            "id": "65f8c7305759855b9171860a",
+            "size": 690,
+            "processed_count": 690,
+            "indexed_count": 279,
+            "is_completed": false,
+            "title": "index_.txt",
+            "type": "google/indexer",
+            "created_at": "2024-03-18T22:58:56.901Z"
+        }
+    ]
+}</code></pre>
+            </section>
+
+            <section id="download-report" class="api-section post">
+                <h3>Downloading a task report <span class="endpoint-method">POST</span></h3>
+                <p>Download the full report for a completed task, including lists of indexed and unindexed links.</p>
+                <h4>Endpoint</h4>
+                <pre><code>POST /v2/task/<SEARCH ENGINE>/<TASK TYPE>/fullreport</code></pre>
+                <h4>Path Parameters</h4>
+                 <ul class="parameter-list">
+                    <li><code>SEARCH ENGINE</code> (string): Possible values: <code>google</code>, <code>yandex</code>.</li>
+                    <li><code>TASK TYPE</code> (string): Possible values: <code>indexer</code>, <code>checker</code>.</li>
+                </ul>
+                <h4>Headers</h4>
+                 <ul class="parameter-list">
+                    <li><code>Authorization: <API KEY></code></li>
+                    <li><code>Content-Type: application/json</code></li>
+                </ul>
+                <h4>Request Body (JSON)</h4>
+                <ul class="parameter-list">
+                     <li><code>task_id</code> (string): The ID of the task for which to download the report.</li>
+                </ul>
+                <h4>Response Fields</h4>
+                <ul class="response-fields">
+                    <li><code>code</code> (number): Status code.</li>
+                    <li><code>result</code> (object): Report details.
+                        <ul>
+                            <li><code>id</code> (string): Task identifier.</li>
+                            <li><code>size</code> (number): Total links in the task.</li>
+                            <li><code>processed_count</code> (number): Processed links.</li>
+                            <li><code>indexed_links</code> (array of objects): List of indexed links. Each object:
+                                <ul>
+                                    <li><code>url</code> (string): Page URL.</li>
+                                    <li><code>title</code> (string): Title from search results (<strong>only available for google</strong>).</li>
+                                </ul>
+                            </li>
+                            <li><code>unindexed_links</code> (array of objects): List of unindexed links. Each object:
+                                <ul>
+                                    <li><code>url</code> (string): Page URL.</li>
+                                    <li><code>error_code</code> (number): Error codes (<strong>only available for google/indexer tasks</strong>):
+                                        <ul>
+                                            <li><code>-1</code>: Meta tag noindex found.</li>
+                                            <li><code>0</code>: No errors found.</li>
+                                            <li><code>404, 502, 410, etc.</code>: HTTP status code found on the page.</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><code>title</code> (string): Task title.</li>
+                            <li><code>type</code> (string): Task type.</li>
+                            <li><code>created_at</code> (string): Task creation date.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <h4>Request Example</h4>
+                <pre><code class="language-bash">curl -X POST -H "Authorization: <API KEY>" \
+-H "Content-Type: application/json" \
+-d '{"task_id":"67f542b1e86b8c3b8ffac1a6"}' \
+https://api.speedyindex.com/v2/task/google/indexer/fullreport</code></pre>
+                <h4>Response Example</h4>
+                <pre><code class="language-json">{
+    "code": 0,
+    "result": {
+        "id": "67f542b1e86b8c3b8ffac1a6",
+        "size": 1,
+        "processed_count": 1,
+        "indexed_links": [
+            {
+                "url": "https://google.com",
+                "title": "Google"
+            }
+        ],
+        "unindexed_links": [],
+        "title": "msg-2025-04-08T15:37:22.838Z.txt",
+        "type": "google/indexer",
+        "created_at": "2025-04-08T15:37:28.013Z"
+    }
+}</code></pre>
+            </section>
+
+            <section id="index-single-link" class="api-section post">
+                <h3>Index a single link <span class="endpoint-method">POST</span></h3>
+                <p>Quickly submit a single URL for indexing.</p>
+                <h4>Endpoint</h4>
+                <pre><code>POST /v2/<SEARCH ENGINE>/url</code></pre>
+                <h4>Path Parameters</h4>
+                 <ul class="parameter-list">
+                    <li><code>SEARCH ENGINE</code> (string): Possible values: <code>google</code>, <code>yandex</code>.</li>
+                </ul>
+                <h4>Headers</h4>
+                 <ul class="parameter-list">
+                    <li><code>Authorization: <API KEY></code></li>
+                    <li><code>Content-Type: application/json</code></li>
+                </ul>
+                <h4>Request Body (JSON)</h4>
+                <ul class="parameter-list">
+                     <li><code>url</code> (string): The link you want to index.</li>
+                </ul>
+                <h4>Response Codes</h4>
+                <ul class="response-fields">
+                    <li><code>code</code> (number):
+                        <ul>
+                            <li><code>0</code>: Link successfully added.</li>
+                            <li><code>1</code>: Top up balance.</li>
+                            <li><code>-2</code>: The server is overloaded. Repeat the request later.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <h4>Request Example</h4>
+                <pre><code class="language-bash">curl -X POST -H 'Authorization: <API KEY>' \
+-H 'Content-Type: application/json' \
+-d '{"url":"https://google.ru"}' \
+https://api.speedyindex.com/v2/google/url</code></pre>
+                <h4>Response Example</h4>
+                <pre><code class="language-json">{"code":0}</code></pre>
+            </section>
+
+            <section id="create-invoice" class="api-section post">
+                <h3>Create an invoice for payment <span class="endpoint-method">POST</span></h3>
+                <p>Generate an invoice link to top up your account balance.</p>
+                <h4>Endpoint</h4>
+                <pre><code>POST /v2/account/invoice/create</code></pre>
+                <h4>Headers</h4>
+                 <ul class="parameter-list">
+                    <li><code>Authorization: <API KEY></code></li>
+                    <li><code>Content-Type: application/json</code></li>
+                </ul>
+                <h4>Request Body (JSON)</h4>
+                <ul class="parameter-list">
+                     <li><code>qty</code> (number): Number of links to which you need to top up your balance.</li>
+                     <li><code>type</code> (string): Service type. Possible values: <code>indexer</code>, <code>checker</code>, <code>mix</code>.</li>
+                     <li><code>method</code> (string): Payment method. Possible values: <code>crypto</code>, <code>paypal</code>, <code>yookassa</code>.</li>
+                     <li><code>email</code> (string, optional): Required for <code>Yookassa</code> only.</li>
+                </ul>
+                <h4>Response Fields</h4>
+                <ul class="response-fields">
+                    <li><code>code</code> (number): Status code (0 for success).</li>
+                    <li><code>result</code> (string): Invoice link for payment.</li>
+                </ul>
+                <h4>Request Example</h4>
+                <pre><code class="language-bash">curl -X POST -H "Authorization: <API KEY>" \
+-H 'Content-Type: application/json' \
+-d '{"qty":10000,"method":"crypto","type":"indexer"}' \
+https://api.speedyindex.com/v2/account/invoice/create</code></pre>
+                <h4>Response Example</h4>
+                <pre><code class="language-json">{
+    "code": 0,
+    "result": "https://pay.cryptocloud.plus/LJQ18AI1?lang=en"
+}</code></pre>
+            </section>
+
+            <section id="vip-queue" class="api-section post">
+                <h3>VIP Queue (google/indexer only) <span class="endpoint-method">POST</span></h3>
+                <p>Add a task to the VIP queue for expedited Google indexing. This is a paid service where 1 link equals 1 additional credit.</p>
+                <div class="note">
+                    <p><strong>Note:</strong> This is a paid service (1 link = 1 additional credit). Googlebot typically follows links within 1-10 minutes after activation. Task completion is guaranteed within 5 minutes; otherwise, funds are returned to your balance.</p>
+                </div>
+                <h4>Endpoint</h4>
+                <pre><code>POST /v2/task/google/indexer/vip</code></pre>
+                <h4>Headers</h4>
+                 <ul class="parameter-list">
+                    <li><code>Authorization: <API KEY></code></li>
+                    <li><code>Content-Type: application/json</code></li>
+                </ul>
+                <h4>Request Body (JSON)</h4>
+                <ul class="parameter-list">
+                     <li><code>task_id</code> (string): ID of the task (with no more than 100 links) to add to the VIP queue.</li>
+                </ul>
+                <h4>Response Codes & Fields</h4>
+                 <ul class="response-fields">
+                    <li><code>code</code> (number):
+                        <ul>
+                            <li><code>0</code>: Task successfully added to VIP queue.</li>
+                            <li><code>1</code>: Top up balance.</li>
+                            <li><code>-2</code>: Server overloaded. Repeat in 5 sec.</li>
+                            <li><code>-3</code>: Task not found.</li>
+                            <li><code>-4</code>: Already added to VIP queue.</li>
+                            <li><code>-5</code>: More than 100 links found in the task.</li>
+                        </ul>
+                    </li>
+                    <li><code>message</code> (string): "OK" if successful.</li>
+                </ul>
+                <h4>Request Example</h4>
+                <pre><code class="language-bash">curl -X POST -H "Authorization: <API KEY>" \
+-H 'Content-Type: application/json' \
+-d '{"task_id":"680222ce0428e10a6b16bf72"}' \
+https://api.speedyindex.com/v2/task/google/indexer/vip</code></pre>
+                <h4>Response Example</h4>
+                <pre><code class="language-json">{"code":0,"message":"OK"}</code></pre>
+            </section>
+
+            <section id="pricing" class="api-section">
+                <h3>Pricing <span class="endpoint-method">INFO</span></h3>
+                <p>Details about our service packages and pricing.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Package, links</th>
+                            <th>Indexing links</th>
+                            <th>Checking for index</th>
+                            <th>Indexing links + checking for index</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1 link</td>
+                            <td>0.0075 $</td>
+                            <td>0.0015 $</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>5,000</td>
+                            <td>30 $</td>
+                            <td>6 $</td>
+                            <td>35 $</td>
+                        </tr>
+                        <tr>
+                            <td>10,000</td>
+                            <td>50 $</td>
+                            <td>10 $</td>
+                            <td>55 $</td>
+                        </tr>
+                        <tr>
+                            <td>25,000</td>
+                            <td>100 $</td>
+                            <td>25 $</td>
+                            <td>115 $</td>
+                        </tr>
+                        <tr>
+                            <td>50,000</td>
+                            <td>170 $</td>
+                            <td>45 $</td>
+                            <td>200 $</td>
+                        </tr>
+                        <tr>
+                            <td>100,000</td>
+                            <td>300 $</td>
+                            <td>80 $</td>
+                            <td>350 $</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Basic smooth scroll for sidebar
+        document.querySelectorAll('.sidebar nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    // Optional: Add active class to current link
+                    document.querySelectorAll('.sidebar nav a').forEach(el => el.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
