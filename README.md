@@ -1,75 +1,79 @@
-# SpeedyIndex API v2 Documentation HTML
+# SpeedyIndex API v2 Documentation
 
-This repository contains the HTML source code for the SpeedyIndex API v2 documentation. The documentation is designed to provide developers with a comprehensive guide to integrating with the SpeedyIndex service for programmatic URL indexing and index checking.
+## Introduction
 
-## About SpeedyIndex
+Welcome to the SpeedyIndex API v2. Our service is designed to provide a robust and efficient solution for **accelerated content discovery** by major search engines like Google and Yandex. Whether you need to get new pages indexed quickly, re-index updated content, or perform a **bulk URL index check**, our API offers the tools for seamless integration into your workflows.
 
-SpeedyIndex offers a robust and efficient solution for:
+SpeedyIndex helps you manage your website's presence in search results programmatically. Utilize our API for **forced indexing tool** capabilities, ensuring your fresh content doesn't wait long to be seen. This documentation provides all the necessary details to interact with our endpoints, manage tasks, and monitor your link indexation status effectively. We support **Yandex index submission API** functionalities alongside Google.
 
-*   **Accelerated Content Discovery:** Get your new or updated content indexed quickly by major search engines like Google and Yandex.
-*   **Bulk URL Index Checking:** Programmatically verify the indexation status of multiple URLs.
-*   **Website Re-indexing:** Automate the process of re-submitting your website's pages after updates.
-*   **Forced Indexing Capabilities:** Ensure your fresh content doesn't wait long to be discovered.
+Key benefits of using the SpeedyIndex API:
 
-The API supports both Google and Yandex, providing a versatile tool for managing your website's search engine presence.
+*   **Rapid Indexing:** Submit URLs for quick processing by Google and Yandex.
+*   **Indexation Checks:** Verify the index status of your URLs.
+*   **Task Management:** Create, list, and monitor indexing and checking tasks.
+*   **Detailed Reporting:** Get comprehensive reports on task progress and outcomes.
+*   **Scalability:** From single link submissions to bulk operations for up to 10,000 URLs per request.
+*   **Automation:** Perfect for those looking to **automate website re-indexing** processes.
 
-## Documentation Features
+Your API Key must be included in the `Authorization` header for all requests.
 
-The HTML documentation page includes:
+---
 
-*   **Clear Navigation:** A fixed sidebar allows for easy navigation between different API endpoint descriptions.
-*   **Semantic Structure:** Well-organized content using appropriate HTML tags for better readability and accessibility.
-*   **Detailed Endpoint Descriptions:** Each API endpoint is documented with:
-    *   HTTP Method (GET/POST)
-    *   Endpoint URL
-    *   Required Headers
-    *   Request Parameters/Body
-    *   Response Fields and Codes
-    *   `curl` Request Examples
-    *   JSON Response Examples
-*   **Usability Focused Design:**
-    *   Responsive layout for various screen sizes.
-    *   Distinct styling for code blocks, parameters, and important notes.
-    *   A clear pricing table.
-*   **Quick Links:** Prominent links to key SpeedyIndex service pages:
-    *   [Links Indexing](https://en.speedyindex.com)
-    *   [Reindex Website](https://en.speedyindex.com/reindex-website/)
-    *   [Index Checker](https://en.speedyindex.com/google-index-checker/)
-    *   [Free Sitemap Extractor](https://en.speedyindex.com/free-xml-sitemap-url-extractor/)
-*   **SEO Considerations:** Incorporates relevant low-frequency keywords to describe the service's capabilities naturally.
+## Check Balance
 
-## API Endpoints Covered
+To get your current account balance for different services.
 
-The documentation details the following SpeedyIndex API v2 endpoints:
+*   **Method:** `GET`
+*   **Endpoint:** `/v2/account`
 
-*   **Introduction:** Overview of the API and its benefits.
-*   **Check Balance:** (`GET /v2/account`) Retrieve your current account balance.
-*   **Task Creation:** (`POST /v2/task/<SEARCH_ENGINE>/<TASK_TYPE>/create`) Create new indexing or checking tasks.
-*   **List Tasks:** (`GET /v2/task/<SEARCH_ENGINE>/<TASK_TYPE>/list/<PAGE>`) Get a paginated list of your tasks.
-*   **Task Status:** (`POST /v2/task/<SEARCH_ENGINE>/<TASK_TYPE>/status`) Check the status of specific tasks.
-*   **Download Report:** (`POST /v2/task/<SEARCH_ENGINE>/<TASK_TYPE>/fullreport`) Download a detailed report for a completed task.
-*   **Index Single Link:** (`POST /v2/<SEARCH_ENGINE>/url`) Submit a single URL for quick indexing.
-*   **Create Invoice:** (`POST /v2/account/invoice/create`) Generate a payment invoice to top up your balance.
-*   **VIP Queue:** (`POST /v2/task/google/indexer/vip`) Add a task to the high-priority VIP queue (Google Indexer only).
-*   **Pricing:** Information on service packages and costs.
+**Headers:**
+*   `Authorization: <API KEY>` - Your unique API key.
 
-## How to Use
+**Response Fields:**
+*   `code` (integer): Status code of the response. 0 indicates success.
+*   `balance` (object): Contains balance details.
+    *   `balance.indexer` (integer): Your balance for Google link indexing service.
+    *   `balance.checker` (integer): Your balance for Google link indexation check service.
 
-1.  **Open the HTML File:** Simply open the `[your_html_filename].html` file in any modern web browser to view the documentation.
-2.  **Navigate:** Use the sidebar navigation to jump to specific sections of the API documentation.
-3.  **Review Endpoints:** Read through the details for each endpoint relevant to your integration needs.
-4.  **Use Examples:** Refer to the `curl` and JSON examples as a guide for making your API requests.
+**Request Example (curl):**
+```bash
+curl -H "Authorization: <API KEY>" https://api.speedyindex.com/v2/account
 
-## Technologies Used
+{
+    "code": 0,
+    "balance": {
+        "indexer": 10014495,
+        "checker": 100732
+    }
+}
 
-*   HTML5
-*   CSS3 (with CSS Variables for theming)
-*   JavaScript (for basic smooth scrolling)
+curl -X POST -H 'Authorization: <API KEY>' \
+-H 'Content-Type: application/json' \
+-d '{"title":"test title","urls":["https://google.com","https://google.ru"]}' \
+https://api.speedyindex.com/v2/task/google/indexer/create
 
-## Contributing
+{
+    "code": 0,
+    "task_id": "6609d023a3188540f09fec6c",
+    "type": "google/indexer"
+}
 
-While this is primarily a static documentation page, suggestions for improving clarity, accuracy, or usability are welcome. Please open an issue or submit a pull request.
+curl -H "Authorization: <API KEY>" https://api.speedyindex.com/v2/task/google/checker/list/0
 
-## License
+{
+    "code": 0,
+    "page": 0,
+    "last_page": 0,
+    "result": [
+        {
+            "id": "65f8c7315752853b9171860a",
+            "size": 690,
+            "processed_count": 690,
+            "indexed_count": 279,
+            "title": "index_.txt",
+            "type": "google/checker",
+            "created_at": "2024-03-18T22:58:56.901Z"
+        }
+    ]
+}
 
-This documentation is provided for use with the SpeedyIndex API. Please refer to the SpeedyIndex terms of service for API usage guidelines.
